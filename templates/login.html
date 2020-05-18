@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+
+{% block title%}
+Login
+{% endblock %}
+
+{% block navs %}
+<ul class="nav nav-tabs justify-content-end">
+    <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('signup') }}">SIGNUP</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link active" href="{{url_for('login')}}">LOGIN</a>
+    </li>
+</ul>
+{% endblock %}
+
+
+{% block body %}
+<div style="margin: auto; margin-top: 5%; border-radius: 25px; border: 2px transparent; background-color: #f8f9fa; padding: 20px; width: 85%; max-width: 450px;">
+    <div style="padding-bottom: 10px;">
+        <h3>LOGIN</h3>
+    </div>
+    <div style="padding-left: 20%;"></div>
+        <form method="POST">
+            <div class="form-group">
+                <input type="email" name="username" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email address">
+            </div>
+            <div class="form-group">
+                <input type="password" name="pswd" class="form-control" id="exampleInputPassword1" placeholder="Enter your Password">
+                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-md btn-primary">Submit</button>
+                <button type="reset" class="btn btn-md btn-primary">Reset</button>
+            </div>
+            
+        </form>
+    </div>
+</div>
+
+{% endblock %}
+

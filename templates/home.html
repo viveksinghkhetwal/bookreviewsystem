@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% block title%}
+Home
+{% endblock %}
+
+{% block navs %}
+
+<ul class="nav nav-tabs justify-content-end">
+    <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('signup') }}">SIGNUP</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{url_for('login')}}">LOGIN</a>
+    </li>
+</ul>
+{% endblock %}
+
+{% block body %}
+<div style="margin: 18%; margin-top: 5%; border-radius: 25px; border: 2px transparent; background-color: #f8f9fa; padding: 20px; width: 65%;">
+    <div style="text-align: center; padding: 7%; background-color: white;">
+        <h1 style="color: darkslategray;">
+            Welcome! <BR> To <b><span style="color: lightseagreen;">Book</span><span style="color: rgb(245, 186, 37);">Scout</span></b>
+        </h1>
+    </div>
+</div>
+
+
+{% endblock %}
