@@ -1,30 +1,24 @@
 <html>
     <head>
-        <title>
-            {% block title%}
-            {% endblock %}
-        </title>
+        {% block title%}
+        {% endblock %}
         <link rel="shortcut icon" href="{{ url_for('static', filename='bookscout.svg') }}">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <style>
-            nav-link{
-                color: red;
-            }
-        </style>
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
                 <ul class="nav nav-tabs">
                     <li>
-                        <a class="navbar-brand" href="{{ url_for('index') }}">
+                        <a class="navbar-brand" id="brand" href="{{ url_for('index') }}">
                             <img src="{{ url_for('static', filename='bookscout.svg') }}" width="30" height="30" class="d-inline-block align-top" alt="">
-                            <b><span style="color: lightseagreen;">Book</span><span style="color: rgb(245, 186, 37);">Scout</span>  
+                            <b><span style="color: lightseagreen;">BOOK</span><span style="color: rgb(245, 186, 37);">Scout</span>  
                             </b>
                         </a>
                     </li>
                 </ul>
+                
                 {% block navs %}
                 {% endblock %}
             </div>

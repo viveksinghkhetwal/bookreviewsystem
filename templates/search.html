@@ -1,5 +1,7 @@
 {% extends "account.html" %}
 
+
+
 {% block books %}
     <div style="margin: auto; padding:5%; width: 90%; max-width: 1200px;">
         <h3>Matched Results:</h3>
@@ -9,16 +11,14 @@
                     <th>ISBN NO.</th>
                     <th>BOOK</th>
                     <th>AUTHOR</th>
-                    <th>YEAR</th>
                 </tr>
             </thead>
             <tbody>
                 {% for book in result %}
                     <tr>
-                        <td>{{ book.isbn_no }}</td>
-                        <td><a href="{{url_for('account')}}">{{ book.title }} </a></td>
-                        <td> {{book.author}} </td>
-                        <td> {{book.pbyear}}</td>
+                        <td>{{ book.isbn }}</td>
+                        <td><a href="{{ url_for('book', isbn=book.isbn, title=book.title) }}"><b>{{ book.title }} </b></a></td>
+                        <td>{{book.author}} </td>
                     </tr>
                 {% endfor %}
             </tbody>
