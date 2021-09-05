@@ -1,28 +1,69 @@
-{% extends "account.html" %}
+{% extends "layout.html" %}
 
+{% block title%}
+<title> Search Book</title>
+<style>
+    #brand{
+        pointer-events: none;
+    }
+    .nav-link{
+        font-weight: bold; color: #4B5563;
+    }
+    .nav-item :hover{
+        background-color: #4338CA; color: white;
+    }
+</style>
+{% endblock %}
 
+{% block navs %}
+{% for i in session["id"]%}
+    <div>Hello! <span style="color: darkcyan; ">{{i}}</span></div> 
+{%else%}
+    <div>Hello! <span style="color: darkcyan; ">Stranger</span></div> 
+{%endfor%}
+<ul class="nav nav-tabs justify-content-end">
+    <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('index') }}">LOGOUT</a>
+    </li>
+</ul>
+{% endblock %}
 
-{% block books %}
-    <div style="margin: auto; padding:5%; width: 90%; max-width: 1200px;">
-        <h3>Matched Results:</h3>
-        <table class="table table-hover">
-            <thead class="thead-dark">
+{% block body %}
+<div style=" padding: 20px; padding-right: 35px; width: auto; float: right;">
+    <small id="emailHelp" class="form-text text-muted" style="margin-left: -2px; padding-bottom: 8px;">Search Book by it's title / author / isbn_no.</small>
+    <form class="form-inline mt-2 mt-md-0" method="POST">
+        <input name="search" class="form-control mr-sm-2" type="search" placeholder="Search the book..." aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+            Search
+        </button>
+    </form>
+</div>
+
+<div style="margin: auto; width: 90%; max-width: 1200px; max-height: 700px; overflow-y: auto;">
+    <table class="table table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th>BOOK</th>
+                <th class="text-center">AUTHOR</th>
+                <th class="text-right">ISBN NO.</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in result %}
                 <tr>
-                    <th>ISBN NO.</th>
-                    <th>BOOK</th>
-                    <th>AUTHOR</th>
+                    <td><a href="{{ url_for('book', isbn=book.isbn, title=book.title) }}"><b>{{ book.title }} </b></a></td>
+                    <td class="text-center">{{book.author}} </td>
+                    <td class="text-right">{{ book.isbn }}</td>
                 </tr>
-            </thead>
-            <tbody>
-                {% for book in result %}
-                    <tr>
-                        <td>{{ book.isbn }}</td>
-                        <td><a href="{{ url_for('book', isbn=book.isbn, title=book.title) }}"><b>{{ book.title }} </b></a></td>
-                        <td>{{book.author}} </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<br>
+
+<div>
+    {% block books %}
+    {% endblock %}
+</div>
+
 {% endblock %}

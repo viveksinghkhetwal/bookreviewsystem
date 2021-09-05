@@ -18,7 +18,7 @@ def bookstable():
 
 def reviewtable():
     db.execute("CREATE TABLE reviews(id SERIAL primary key, rating int, reviews varchar(900) not null,isbn_no varchar not null, email varchar(150) not null);")
-    print(f"table for the reviews is created.")
+    print(f"table for the reviews is created.") 
     db.commit()
 
 def importbooks():

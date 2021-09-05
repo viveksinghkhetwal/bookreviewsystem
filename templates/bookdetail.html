@@ -9,6 +9,30 @@
     .form-check-label{
         padding: 12px;
     }
+    .nav-link{
+        font-weight: bold; color: #4B5563;
+    }
+    .nav-item :hover{
+        background-color: #4338CA; color: white;
+    }
+   
+    .th{
+        font-size: 12; vertical-align: middle !important; padding: 8px 30px; color: #6B7280; font-weight: 500; letter-spacing: .5px;
+    }
+    .td{
+        font-size: 20; font-weight: 700; text-align: left !important; color: #4B5563; letter-spacing: 1px;
+    }
+    .details{
+        margin: auto;
+    }
+
+    .fs-2{
+        font-size: 32; font-weight: 700; letter-spacing: 1px; color: #059669;
+    }
+    .rate{
+        width: 50%; margin-right: 2%; padding: 0 20px; padding-bottom: 30px; text-align: center; color: #10B981;
+         border-radius: 15px; letter-spacing: .5px; font-weight: 500;
+    }
 </style>
 {% endblock %}
 
@@ -24,73 +48,129 @@
 {% endblock %}
 
 {% block body %}
-<div style="margin: auto; margin-top: 20px; padding: 20px; background-color: #f8f9fa; max-width: 700px;">
+<div class="row" style="height:800px">
+    
+    <div class="col-5" style="margin-left:5%; float:right; margin-top: 40px; ">
+        <div style="margin: auto;  padding: 20px; border-top-left-radius:10px; border-top-right-radius:10px; background-color:#f8f9fa; max-width: 700px;">
 
-    <h3 style="padding: 5px;">Book's Detail:</h3>
-
-    <table class="table">
-        <tbody style="text-align: justify;">
-            <tr>
-                <th scope="col">Book's Title:</th>
-                <td>{{ check.title }} </td>
-            </tr>
-            <tr>
-                <th scope="col">Author Name:</th>
-                <td>{{ check.author }} </td>
-            </tr>
-            <tr>
-                <th scope="col">ISBN No:</th>
-                <td>{{ check.isbn }} </td>
-            </tr>
-            <tr>
-                <th scope="col">Publication Year:</th>
-                <td>{{ check.pbyear }} </td>
-            </tr>
-            <tr>
-                <th scope="col">Book ID:</th>
-                <td>{{ check.id }} </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-<div style="margin: auto; margin-top: 20px; padding: 20px; background-color: #f8f9fa; max-width: 700px;">
-        <h3>User Rating & Review:</h3>
-        <body>
-            <form method="POST">
-                
-                <div class="formgroup" style="padding-top: 10px;">
-                    <label for="radio" style="font-size: x-large;">Rate this Book:</label>
-                    <div class="form-check form-check-inline">
-                        <label class="form-check-label" for="rate1">1</label>
-                        <input class="form-check-input" type="radio" name="rate1" value="option1"> &nbsp;&nbsp;&nbsp;
-                        <label class="form-check-label" for="rate2">2</label>
-                        <input class="form-check-input" type="radio" name="rate2" value="option1">&nbsp;&nbsp;&nbsp;
-                        <label class="form-check-label" for="rate3">3</label>
-                        <input class="form-check-input" type="radio" name="rate3" value="option1">&nbsp;&nbsp;&nbsp;
-                        <label class="form-check-label" for="rate4">4</label>
-                        <input class="form-check-input" type="radio" name="rate4" value="option1">&nbsp;&nbsp;&nbsp;
-                        <label class="form-check-label" for="rate5">5</label>
-                        <input class="form-check-input" type="radio" name="rate5" value="option1">
-                    </div> <br><br>
-                    <label for="exampleFormControlTextarea1" style="font-size: x-large;">User Review:</label>
-                    <textarea class="form-control" name="review" id="exampleFormControlTextarea1" rows="5" placeholder="Enter your Review..."></textarea>
-                    <button type="submit" name="comment" class="btn btn-primary" style="float: right; margin-top:8px; margin-bottom: 20px;">Post</button>
+            <!-- <h3>Book Details</h3> -->
+        
+            <div class="details">
+                <div>
+                    <div>
+                        <p scope="col" class="th">BOOK TITLE <br>
+                            <span class="td">{{ check.title }} </span class="td">
+                        </p>
+                    </div>
+                    <div>
+                        <p scope="col" class="th">AUTHOR NAME <br>
+                            <span class="td">{{ check.author }} </span class="td">
+                        </p>
+                    </div>
                 </div>
-            </form>
-        </body>
-</div>
-
-<div style="margin: auto; margin-top: 20px; padding: 20px; background-color: #f8f9fa; max-width: 700px;">
-    {% for review in userreviews %}
-        <div style="border-bottom: dashed 1px; padding: 40px;">
-            <h5>{{ review.userid }}</h5>
-            <body>
-                {{ review.reviews }}
-            </body><br>
-            <a href="" style="float: right;"><small>edit</small></a>
+                <div class="d-flex flex-row">
+                    <div>
+                        <p scope="col" class="th">ISBN N0. <br>
+                            <span class="td">{{ check.isbn }} </span class="td">
+                        </p> 
+                    </div>
+                    <div>
+                        <p scope="col" class="th">PUBLICATION YEAR <br>
+                            <span class="td">{{ check.pbyear }} </span class="td">
+                        </p>
+                    </div>
+                    <div>
+                        <p scope="col" class="th">BOOK ID <br>
+                            <span class="td">{{ check.id }} </span class="td">
+                        </p>
+                    </div>
+                </div>
+                
+            </div> <hr>
         </div>
-    {% endfor %}
-</div>
+        
+        <div style="margin: auto; padding: 0 30px; background-color: #f8f9fa; border-bottom-left-radius:10px; border-bottom-right-radius:10px; max-width: 700px; font-size:12px;">
+            <div class="d-flex flex-row">
+                <div class="totr rate">
+                    <div>NO. OF RATINGS</div>
+                    <div class="fs-2">{{ details["work_ratings_count"] }}</div>
+                </div>
+                <div class="avgr rate">
+                    <div>AVG RATING</div>
+                    <div class="fs-2">{{ '%0.1f'| format(details["average_rating"] | float) }}<span style="font-size:20; font-weight: 400; color: #34D399">/5</span>
+                    </div>
+                </div>
+            </div>
+        
+                <!-- <body>
+        
+                    <table class="table">
+                        <tbody style="text-align: left;">
+                            <tr>
+                                <th scope="col">Total no. of ratings:</th>
+                                <td class="fs-2">{{ details["work_ratings_count"] }} </td>
+                            </tr>
+                            <tr>
+                                <th scope="col">Average Rating:</th>
+                                <td class="fs-2">{{ details["average_rating"] }} </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                -->
+        
+                    <!-- <form method="POST">
+                        
+                        <div class="formgroup" style="padding: 10px;">
+                            <label for="radio" style="font-size: x-large;">Rate this Book:</label>
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label" for="rate1">1</label>
+                                <input class="form-check-input" type="radio" name="rate1" value="option1"> &nbsp;&nbsp;&nbsp;
+                                <label class="form-check-label" for="rate2">2</label>
+                                <input class="form-check-input" type="radio" name="rate2" value="option1">&nbsp;&nbsp;&nbsp;
+                                <label class="form-check-label" for="rate3">3</label>
+                                <input class="form-check-input" type="radio" name="rate3" value="option1">&nbsp;&nbsp;&nbsp;
+                                <label class="form-check-label" for="rate4">4</label>
+                                <input class="form-check-input" type="radio" name="rate4" value="option1">&nbsp;&nbsp;&nbsp;
+                                <label class="form-check-label" for="rate5">5</label>
+                                <input class="form-check-input" type="radio" name="rate5" value="option1">
+                            </div> <hr>
+                            
+                        </div>
+                    </form> -->
+                <!-- </body> -->
+        </div>
+    </div>
 
+    <div class="col-6" style="margin-right:5%; margin-top: 40px; padding: 20px; border-radius: 10px; background-color: #f8f9fa; max-width: 700px; max-height:650px; overflow-y: auto;">
+        <section style="padding: 20px;">
+            <form method="POST">
+                <div>
+                    <label for="exampleFormControlTextarea1" style="font-size: normal;">Have you read <b>{{ check.title }}</b>...? </label>
+                    <textarea class="form-control" name="review" id="exampleFormControlTextarea1" rows="5" placeholder="Write a Review to tell us about it..."></textarea>
+                </div> 
+                <div style="padding: 5px 15px;">
+                    <button type="submit" name="comment" class="btn btn-primary" style="float: right;">Post</button> <br><br>
+                </div> <br><hr>
+            </form>
+                
+    
+            {% for review in userreviews %}
+            <div>
+                <h5 style="font-weight: 600;">{{ review.userid }}</h5>
+                <body>
+                    {{ review.reviews }}
+                </body>
+            </div> 
+            <div style="padding: 2px; float:right;">
+                <!-- <a href=""><small>Upvote</small></a> &nbsp | &nbsp;
+                <a href=""><small>Downvote</small></a> &nbsp | &nbsp; -->
+                <a href=""><small>Edit</small></a> &nbsp | &nbsp;
+                <a href=""><small>Delete</small></a>
+            </div> <br>
+            <hr>
+            {% endfor %}
+        </section>
+    </div>
+</div>
 
 {% endblock %}

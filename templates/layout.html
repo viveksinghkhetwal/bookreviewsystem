@@ -5,16 +5,14 @@
         <link rel="shortcut icon" href="{{ url_for('static', filename='bookscout.svg') }}">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
+
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
                 <ul class="nav nav-tabs">
                     <li>
-                        <a class="navbar-brand" id="brand" href="{{ url_for('index') }}">
-                            <img src="{{ url_for('static', filename='bookscout.svg') }}" width="30" height="30" class="d-inline-block align-top" alt="">
-                            <b><span style="color: lightseagreen;">BOOK</span><span style="color: rgb(245, 186, 37);">Scout</span>  
-                            </b>
+                        <a class="navbar-brand" id="brand" href="{{ url_for('index') }}" style="font-size: 18; font-weight:bold;">
+                            <img src="{{ url_for('static', filename='bookscout.svg') }}" width="26" height="26" class="d-inline-block align-top" alt="">
+                                <span style="color: #10B981;">Book</span><span style="color: rgb(245, 186, 37);">.info</span>  
                         </a>
                     </li>
                 </ul>
@@ -23,9 +21,60 @@
                 {% endblock %}
             </div>
         </nav>
+    </head>
+    <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">
+        <div>
+            <div>
+                {% block body %} 
+                {% endblock %}
+            </div>
+        </div>
         
-        {% block body %} 
-        {% endblock %}
+
+        <div id="contact">
+            <div class="container" style="padding: 50px 0;">
+                <p style="font-size: 16; font-weight: 600; color: #4B5563; ">CONNECT</p>
+                <a href="https://www.linkedin.com/in/vivek-singh-khetwal" target="_blank">
+                    <img class="icons" src="{{ url_for('static', filename='linkedin.svg') }}" alt="linkedin">
+                </a> &nbsp &nbsp
+                <a href="https://github.com/viveksinghkhetwal" target="_blank">
+                    <img class="icons" src="{{ url_for('static', filename='github.svg') }}" alt="github">
+                </a>&nbsp &nbsp
+                <a href="https://twitter.com/khetwal_vivek" target="_blank">
+                    <img class="icons" src="{{ url_for('static', filename='twitter.svg') }}" alt="twitter">
+                </a>&nbsp &nbsp
+                <a href="https://www.instagram.com/viveksinghkhetwal/" target="_blank">
+                    <img class="icons" src="{{ url_for('static', filename='instagram.svg') }}" alt="instagram">
+                </a>&nbsp &nbsp
+                
+                <a href="https://www.facebook.com/vivek.khetwal1" target="_blank">
+                    <img class="icons" src="{{ url_for('static', filename='facebook.svg') }}" alt="facebook">
+                </a><br><br><hr><br>
+                <small style=" margin: auto; color: #6B7280; font-size: 14;" id="copyright"> copyright
+                    <a href="/" style="font-size: normal; ">
+                        <img src="{{ url_for('static', filename='copyright.svg') }}" alt="copyright" width="16px">
+                        Book.info
+                    </a>
+                </small>
+            </div>
+        </div>
         
+        <style>
+            #contact{
+                background-color: #F3F4F6;
+                padding: 40px 180px;
+                text-align: center;
+                max-width: 100%;
+                color: white;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            }
+            .icons{
+                width: 40px;
+                opacity: 0.65;
+            }
+            .icons:hover{
+                opacity: unset;
+            }
+        </style>
     </body>
 </html>

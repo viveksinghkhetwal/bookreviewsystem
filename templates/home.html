@@ -1,7 +1,26 @@
 {% extends "layout.html" %}
 
 {% block title%}
-<title> BOOKScout </title>
+<title> Book.info </title>
+<style>
+    .nav-link{
+        font-weight: bold; color: #4B5563;
+    }
+    .nav-item :hover{
+        background-color: #4338CA; color: white;
+    }
+    #signuplink{
+        text-decoration: none; animation:blinking 1.5s infinite;
+    }
+    @keyframes blinking{
+        0%{   color: #1D4ED8;   }
+        20%{   color: #3B82F6; }
+        40%{    color: #FBBF24;}
+        60%{    color: #FBBF24;}
+        70%{  color: #10B981;   }
+        100%{  color: #10B981;   }
+    }
+</style>
 {% endblock %}
 
 {% block navs %}
@@ -14,22 +33,31 @@
         <a class="nav-link" href="{{url_for('login')}}">LOGIN</a>
     </li>
 </ul>
+
 {% endblock %}
 
 {% block body %}
 
-<div style="margin: auto; margin-top: 8%; border-radius: 21px; border: 2px transparent; background-color: black; padding: 4px; width: 70%;">
+<div class="row" style="height: 80%; margin: auto; margin-top: 8%; border-radius: 21px; border: 2px transparent; padding: 4px; width: 80%;">
     
-    <img src="static/book.jpg" style="max-width: 420px; float: left;">
-    <div style="text-align: center; padding: 20px; background-color: white;">
-        <h1 style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
-            Welcome, <BR> To <b><span style="color: lightseagreen;">BOOK</span><span style="color: rgb(245, 186, 37);">Scout</span>...!</b><br>
-        </h1>
-        <p style="font-size: larger; text-align: center; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: darkcyan;">
-            This is a book review website. Here you will be able to search for books, 
-            leave reviews for individual books, and see the reviews made by other people. <br><br>
-            Click above on <b>SIGNUP</b>  to Register.
+    <div class="col-7" style="text-align: right; padding: 20px; background-color: white;">
+        <h1 style="font-size: 60; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
+             <b><span style="color: #10B981;">Book</span><span style="color: rgb(245, 186, 37);">.info</span></b><br>
+        </h1> <hr>
+        <p style="font-size:32; color: #6B7280; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
+            A book review website
         </p>
+        <p style="font-size: 18; color: #6B7280; font-weight: light; text-align: right; font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif">
+            An online database for information related to books. <br> Here you can search the
+            ratings, reviews & the author of the books. <br><br> You must register to post your reviews on the books. <br><br>
+            <span style="font-weight:600; font-size:17;">
+                Click on the <a href="{{ url_for('signup') }}">
+                    <b id="signuplink" style="font-size:22; font-weight:bold; color: darkcyan;"> SIGNUP</b></a>  button to register yourself.
+            </span>
+        </p>
+    </div>
+    <div class="col-5">
+        <img src="static/5294.jpg" style="max-width: 580px; padding: 10px 0;">
     </div>
 </div>
 

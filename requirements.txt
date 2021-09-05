@@ -1,4 +1,13 @@
+Flask==2.0.1
+Flask-Session==0.4.0
+SQLAlchemy==1.4.23
+requests==2.25.1
+sqlparse==0.4.1
+psycopg2==2.9.1
+Jinja2==3.0.1
+
 Flask
 Flask-Session
 psycopg2-binary
 SQLAlchemy
+
