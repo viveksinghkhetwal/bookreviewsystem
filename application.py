@@ -82,6 +82,8 @@ def book(title,isbn):
         res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"isbns":check.isbn})
         details = res.json()["books"][0]
 
+        getimg = requests.get("https://covers.openlibrary.org/b/:key/:value-:size.jpg", params={"key":"isbn", "value":details["isbn13"], "size":"S"})
+
         userreviews = db.execute("SELECT * from reviews where bookid=:id", {"id":check.isbn}).fetchall()    #get book detail.
 
         for i in session["id"]:

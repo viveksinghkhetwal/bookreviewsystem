@@ -18,6 +18,12 @@
     table{
         margin-top: 20px;
     }
+    .name{
+        color: #1D4ED8; font-size: 17px;
+    }
+    .data{
+        color: #6B7280;
+    }
 </style>
 {% endblock %}
 
@@ -37,7 +43,7 @@
 {% block body %}
 
 <div style=" padding: 20px 0; padding-left:20px; width: 22%; float: left;">
-    <small id="emailHelp" class="form-text text-muted" style=" padding-bottom: 8px;">Search Book by it's title / author / isbn_no.</small>
+    <small id="emailHelp" class="form-text text-muted" style=" padding-bottom: 8px;">Search Book by it's Title, Author, or ISBN</small>
     <form class="form mt-2 mt-md-0" method="POST">
         <input name="search" class="form-control mb-sm-2" type="search" placeholder="Search the book..." aria-label="Search">
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
@@ -57,10 +63,10 @@
         </thead>
         <tbody>
             {% for book in result %}
-                <tr>
-                    <td><a href="{{ url_for('book', isbn=book.isbn, title=book.title) }}"><b>{{ book.title }} </b></a></td>
+                <tr onclick="window.location='{{ url_for('book', isbn=book.isbn, title=book.title) }}'" style="cursor: pointer;">
+                    <td class="name"><b>{{ book.title }} </b></td>
                     <td class="text-center">{{book.author}} </td>
-                    <td class="text-right">{{ book.isbn }}</td>
+                    <td class="text-right data">{{ book.isbn }}</td>
                 </tr>
             {% endfor %}
         </tbody>
