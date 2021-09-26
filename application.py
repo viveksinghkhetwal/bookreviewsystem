@@ -97,11 +97,13 @@ def book(title,isbn):
                     return book(title, isbn)
                 except IntegrityError:
                     return render_template("error.html",message="You have submitted your review. User can review only once.")
-            elif db.execute("SELECT * from reviews WHERE userid=:ui and bookid=:bi",{"ui":uid,"bi":check.isbn}).rowcount != 0:
-                return render_template("error.html",message="You have submitted your review. User can review once.")
+            # else:
+            #     return render_template("error.html",message="You have submitted your review. User can review once.")
         if check is None:
             return render_template("error.html", message="No such book exists.")
         return render_template("bookdetail.html", check=check, userreviews=userreviews,title=title, isbn=isbn, details=details)
         engine.dispose()
     except KeyError:
         return render_template("error2.html",message="Please, Login to continue!")
+
+        

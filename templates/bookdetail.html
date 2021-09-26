@@ -33,10 +33,32 @@
         width: 50%; margin-right: 2%; padding: 0 20px; padding-bottom: 30px; text-align: center; color: rgb(0, 123, 255);
          border-radius: 15px; letter-spacing: .5px; font-weight: 500;
     }
+    .reviewsection{
+        padding: 10px 5px;
+    }
+    #commenttext{
+        font-size: 15px !important; color: dimgray !important;
+    }
 </style>
+
+
+<script>
+    function success() {
+	 if(document.getElementById("exampleFormControlTextarea1").value==="") { 
+            document.getElementById('button').disabled = true; 
+        } else { 
+            document.getElementById('button').disabled = false;
+        }
+
+    
+    }
+</script>
+
 {% endblock %}
 
+
 {% block navs %}
+
 {% for i in session["id"]%}
     <div>Hello! <span style="color: darkcyan; ">{{i}}</span></div> 
 {%endfor%}
@@ -45,7 +67,10 @@
         <a class="nav-link" href="{{ url_for('index') }}">LOGOUT</a>
     </li>
 </ul>
+
 {% endblock %}
+
+
 
 {% block body %}
 <div class="row" style="height:800px">
@@ -155,32 +180,31 @@
         <section style="padding: 20px;">
             <form method="POST">
                 <div>
-                    <label for="exampleFormControlTextarea1" style="font-size: normal;">Have you read <b>{{ check.title }}</b>...? </label>
-                    <textarea class="form-control" name="review" id="exampleFormControlTextarea1" rows="5" placeholder="Write a Review to tell us about it..."></textarea>
+                    <label for="exampleFormControlTextarea1" style="font-size: normal;">Have you read the book <b>{{ check.title }}</b>...? </label>
+                    <textarea class="form-control" onkeyup=success() name="review" id="exampleFormControlTextarea1" rows="5" placeholder="Write a Review to tell us about it..."></textarea>
                 </div> 
                 <div style="padding: 5px 15px;">
-                    <button type="submit" name="comment" class="btn btn-primary" style="float: right;">Post</button> <br><br>
+                    <button type="submit" id="button" name="comment" class="btn btn-primary" style="float: right;" disabled>Post</button> <br><br>
                 </div> <br><hr>
             </form>
                 
     
             {% for review in userreviews %}
-            <div>
-                <h5 style="font-weight: 600;">{{ review.userid }}</h5>
-                <body>
+            <div class="reviewsection">
+                <h5 style="font-weight: bold; color:dimgray; font-size:17px;">{{ review.userid }}</h5>
+                <div id="commenttext">
                     {{ review.reviews }}
-                </body>
+                </div>
             </div> 
-            <div style="padding: 2px; float:right;">
-                <!-- <a href=""><small>Upvote</small></a> &nbsp | &nbsp;
-                <a href=""><small>Downvote</small></a> &nbsp | &nbsp; -->
-                <a href=""><small>Edit</small></a> &nbsp | &nbsp;
-                <a href=""><small>Delete</small></a>
-            </div> <br>
+            <!--<div style="padding: 2px; float:right;">
+                 <a href=""><small>Upvote</small></a> &nbsp | &nbsp;
+                <a href=""><small>Downvote</small></a> &nbsp | &nbsp;
+            </div>  -->
             <hr>
             {% endfor %}
         </section>
     </div>
 </div>
+
 
 {% endblock %}
