@@ -106,4 +106,6 @@ def book(title,isbn):
     except KeyError:
         return render_template("error2.html",message="Please, Login to continue!")
 
-        
+    
+if __name__ == '__main__':
+   app.run()        
