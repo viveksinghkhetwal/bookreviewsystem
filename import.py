@@ -3,7 +3,7 @@ import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
-engine = create_engine("postgres://xcnprtumpcosiv:f433bdce0fdf582124511d6cb362aee4b0cb992e464c450e3a0149db02b12f79@ec2-52-0-155-79.compute-1.amazonaws.com:5432/dah2hrgpictefi")
+engine = create_engine("postgresql://xcnprtumpcosiv:f433bdce0fdf582124511d6cb362aee4b0cb992e464c450e3a0149db02b12f79@ec2-52-0-155-79.compute-1.amazonaws.com:5432/dah2hrgpictefi")
 db = scoped_session(sessionmaker(bind=engine))
 
 def usertable():
@@ -12,7 +12,7 @@ def usertable():
     db.commit()
 
 def bookstable():
-    db.execute("CREATE TABLE books(id SERIAL primary key, isbn_no varchar NOT NULL UNIQUE, title varchar(200) NOT NULL, author VARCHAR(80) NOT NULL, pbyear int not null );")
+    db.execute("CREATE TABLE books(id SERIAL primary key, isbn varchar NOT NULL UNIQUE, title varchar(200) NOT NULL, author VARCHAR(80) NOT NULL, pbyear int not null );")
     print(f"table book's storage is created")
     db.commit()
 
@@ -26,8 +26,8 @@ def importbooks():
     reader = csv.reader(f)
     next(reader, None)
     for isbn, title, author, year in reader:
-        db.execute("INSERT INTO books(isbn_no, title, author, pbyear) VALUES(:isbn_no, :title, :author, :pbyear)",
-                    {"isbn_no":isbn, "title":title, "author":author, "pbyear":year}
+        db.execute("INSERT INTO books(isbn, title, author, pbyear) VALUES(:isbn, :title, :author, :pbyear)",
+                    {"isbn":isbn, "title":title, "author":author, "pbyear":year}
                     )
     print(f"Books added successfully")
     db.commit()
