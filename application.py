@@ -70,7 +70,7 @@ def search():
         result = db.execute("SELECT books.*, newisbn.isbn13 FROM books INNER JOIN newisbn on books.isbn=newisbn.isbn WHERE LOWER(books.title) LIKE '%"+s+"%' or books.isbn like '%"+s+"%' or LOWER(books.author) like '%"+s+"%' ORDER BY title").fetchall()
     else:
         # INNER JOIN tables books and newisbn.
-        result = db.execute("SELECT books.*, newisbn.isbn13 FROM books INNER JOIN newisbn on books.isbn=newisbn.isbn ORDER BY title LIMIT 52").fetchall()
+        result = db.execute("SELECT books.*, newisbn.isbn13 FROM books INNER JOIN newisbn on books.isbn=newisbn.isbn ORDER BY id LIMIT 52").fetchall()
     return render_template("search.html", result = result, letters=letters)
 
 
@@ -98,12 +98,24 @@ def book(title,isbn):
             authorid = key
         author_data = author_data[authorid]["extract"]
 
+        book_bio = requests.get(f"https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro&explaintext&redirects=1&titles={check.title}")
+        book_data = book_bio.json()["query"]["pages"]
+        for key in book_data:
+            bookid = key
+        if bookid == "-1":
+            book_data = 0
+        else:
+            book_data = book_data[bookid]["extract"]
+
         # Using GoodReads API to store all details of the book
         res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"isbns":check.isbn})
         details = res.json()["books"][0]
 
         desc = requests.get(f"https://www.googleapis.com/books/v1/volumes?q=isbn:{isbn}")
-        content = desc.json()["items"][0]["volumeInfo"]
+        if desc.json()["totalItems"] == 0:
+            content = 0
+        else:
+            content = desc.json()["items"][0]["volumeInfo"]
 
         # getimg = requests.get("https://covers.openlibrary.org/b/:key/:value-:size.jpg", params={"key":"isbn", "value":details["isbn13"], "size":"S"})
 
@@ -124,7 +136,7 @@ def book(title,isbn):
             #     return render_template("error.html",message="You have submitted your review. User can review once.")
         if check is None:
             return render_template("error.html", message="No such book exists.")
-        return render_template("bookdetail.html", check=check, userreviews=userreviews,title=title, isbn=isbn, details=details, content=content, authordata = author_data)
+        return render_template("bookdetail.html", check=check, userreviews=userreviews,title=title, isbn=isbn, details=details, content=content, authordata = author_data, bookdata = book_data)
         engine.dispose()
     except KeyError:
         return render_template("error2.html",message="Please, Login to continue!")

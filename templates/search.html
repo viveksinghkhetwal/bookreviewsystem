@@ -120,7 +120,7 @@
             {% for book in result %}
                 <div class="books col-2" onclick="window.location='{{ url_for('book', isbn=book.isbn, title=book.title) }}'">
                     <span class="cvrimg">
-                        <img src="https://covers.openlibrary.org/b/isbn/{{book.isbn13}}-M.jpg" width="120px" height="150px" alt="">
+                        <img src="https://covers.openlibrary.org/b/isbn/{{book.isbn13}}-M.jpg" width="120px" height="150px" alt="{{book.title}}">
                     </span>
                     <div class="name"><b>{{ book.title }} </b></div>
                 </div>

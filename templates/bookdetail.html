@@ -17,7 +17,7 @@
     }
    
     .th{
-        font-size: 12; vertical-align: middle !important; padding: 2px 20px; color: black; font-weight: 500; letter-spacing: .5px;
+        font-size: 13; vertical-align: middle !important; padding: 2px 20px; color: black; font-weight: 500; letter-spacing: .5px;
     }
     .td{
         font-size: 22;  text-align: left !important; color: black; letter-spacing: 1px;
@@ -137,7 +137,11 @@
                         </div>
                         <div>
                             <p scope="col" class="th">Category <br>
-                                <span class="td">{{ content["categories"][0] }}</span class="td">
+                                {% if content==0 %}
+                                    <span class="td">Not Available</span class="td">
+                                {% else %}
+                                    <span class="td">{{ content["categories"][0] }}</span class="td">
+                                {% endif %}
                             </p>
                         </div>
                         <div>
@@ -152,12 +156,30 @@
         </div>
 
         <div class="normal-div" >
-            <p class="th" style="font-size: 22 !important; color:black !important;">About book</p>
-            <p class="th" style="font-size: 16 !important;">{{ content["description"] }} </p>
+            <p class="th" style="font-size: 22 !important; color:black !important;">Abstract</p>
+            <p class="th" style="font-size: 16 !important;">
+                {% if content==0 %}
+                    Not Available
+                {% else %}
+                    {{ content["description"] }} 
+                {% endif %}
+            </p> <br>
         </div> <hr>
         
         <div class="normal-div" >
-            <p class="th" style="font-size: 22 !important; color:black !important;">About the author 
+            <p class="th" style="font-size: 22 !important; color:black !important;">Book
+                <span style="color:darkslategray">({{check.title}})</span>
+            </p>
+            <p class="th" style="font-size: 16 !important;">
+                {% if bookdata == 0 %}
+                    Data not available.
+                {% else %}
+                    {{ bookdata }}
+                {% endif %} </p>
+        </div> <hr>
+
+        <div class="normal-div" >
+            <p class="th" style="font-size: 22 !important; color:black !important;">Author 
                 <span style="color:darkslategray">({{check.author}})</span></p>
             <p class="th" style="font-size: 16 !important;">{{ authordata }} </p>
         </div> <br> <hr> <br>
@@ -188,11 +210,22 @@
                 </div>
                 <div class="totr rate">
                     <div>Total no. of ratings </div>
-                    <div class="fs-2">{{ content["ratingsCount"] }}</div>
+                    <div class="fs-2">
+                        {% if content==0 %}
+                            NA
+                        {% else %}
+                            {{ content["ratingsCount"] }}
+                        {% endif %}
+                    </div>
                 </div>
                 <div class="avgr rate">
                     <div>Avg. Rating</div>
-                    <div class="fs-2">{{ '%0.1f'| format(content["averageRating"] | float) }}<span style="font-size:20; font-weight: 400; color: rgb(0, 123, 255)">/5</span>
+                    <div class="fs-2">
+                        {% if content==0 %}
+                            NA
+                        {% else %}
+                            {{ '%0.1f'| format(content["averageRating"] | float) }}
+                        {% endif %}<span style="font-size:20; font-weight: 400; color: rgb(0, 123, 255)">/5</span>
                     </div>
                 </div>
             </div>
