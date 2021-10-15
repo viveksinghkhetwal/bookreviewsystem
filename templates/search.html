@@ -18,65 +18,115 @@
     table{
         margin-top: 20px;
     }
-    .name{
-        color: #1D4ED8; font-size: 17px;
-    }
     .data{
-        color: #6B7280;
+        color: white;
     }
+    .books{
+        cursor: pointer; color: black; font-size: 13px; font-weight: 300;
+        padding: 5px 0;
+        transition: 0.5s;
+    }
+    .books:hover{
+        transform: scale(1.2);
+        z-index:10;
+    }
+    .bookshead{
+        font-size: 20px; padding: 0 15px;
+    }
+    .letters{
+        margin: auto;
+        font-size: 18px;
+        padding: 0 5px;
+        letter-spacing: 1px;
+    }
+    .main-search-div{
+        background-size: cover; max-width: full; padding: 10px 0;
+        background-image: url({{ url_for('static', filename='bg_search1.jpg') }}); 
+        background-blend-mode: lighten; background-attachment: fixed;
+    }
+    .books-div{
+        background: rgba(255, 255, 255, 0.8);
+        z-index: 10;
+    }
+    
 </style>
 {% endblock %}
 
 {% block navs %}
-{% for i in session["id"]%}
-    <div>Hello! <span style="color: darkcyan; ">{{i}}</span></div> 
-{%else%}
-    <div>Hello! <span style="color: darkcyan; ">Stranger</span></div> 
-{%endfor%}
-<ul class="nav nav-tabs justify-content-end">
-    <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('index') }}">LOGOUT</a>
-    </li>
-</ul>
-{% endblock %}
-
-{% block body %}
-
-<div style=" padding: 20px 0; padding-left:20px; width: 22%; float: left;">
-    <small id="emailHelp" class="form-text text-muted" style=" padding-bottom: 8px;">Search Book by it's Title, Author, or ISBN</small>
-    <form class="form mt-2 mt-md-0" method="POST">
-        <input name="search" class="form-control mb-sm-2" type="search" placeholder="Search the book..." aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+<div style="padding-left:20px; float: left;">
+    <form class="form-inline my-2 my-lg-0" method="POST">
+        <label id="emailHelp" class="form-text text-muted mr-sm-2" style=" padding-bottom: 8px;">Search by Title, Author, or ISBN</label>
+        <input name="search" class="form-control mr-sm-2" type="search" placeholder="Search the book..." aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" onclick="{{ url_for('search') }}" type="submit">
             Search
         </button>
     </form>
 </div>
+{% for i in session["id"]%}
+    <div>Hello! <span style="color: darkcyan; ">{{i}}</span></div> 
+    <ul class="nav nav-tabs justify-content-end">
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('index') }}">Home</a>
+        </li>
+        <li class="nav-item active">
+            <a class="nav-link" href="{{ url_for('search') }}">Books</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('index') }}">Logout</a>
+        </li>
+    </ul>
+{%else%}
+    <ul class="nav nav-tabs justify-content-end">
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('index') }}">Home</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" href="{{ url_for('search') }}">Books</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('signup') }}">Signup</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{url_for('login')}}">Signin</a>
+        </li>
+    </ul>
+{%endfor%}
 
-<div style="margin: auto; margin-top:10px; max-width: 1100px; max-height: 700px; overflow-y: auto;">
-    <table class="table table-hover">
-        <thead class="thead-dark">
-            <tr>
-                <th>BOOK</th>
-                <th class="text-center">AUTHOR</th>
-                <th class="text-right">ISBN NO.</th>
-            </tr>
-        </thead>
-        <tbody>
+{% endblock %}
+
+{% block body %}
+<div class="row main-search-div">
+    <!-- <div class="col-3" style=" padding: 20px 0; padding-left:20px; width: 22%; float: left;">
+        <small id="emailHelp" class="form-text text-muted" style=" padding-bottom: 8px;">Search Book by it's Title, Author, or ISBN</small>
+        <form class="form mt-2 mt-md-0" method="POST">
+            <input name="search" class="form-control mb-sm-2" type="search" placeholder="Search the book..." aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+                Search
+            </button>
+        </form>
+    </div> -->
+    
+    <div class="col-7 books-div" style="min-width: 850px; margin: auto;">
+        <div class="row" style="margin-top:10px;">
+            <div class="bookshead">Find your favourite books...</div> 
+            <div class="letters">
+                {% for i in letters %}
+                    <a href="{{ url_for('searchbook', alpha=i) }}">{{i}}</a>
+                {% endfor %}          
+            </div>
+        </div> 
+        <hr>
+        <div class="row" style="margin-bottom:10px;">
             {% for book in result %}
-                <tr onclick="window.location='{{ url_for('book', isbn=book.isbn, title=book.title) }}'" style="cursor: pointer;">
-                    <td class="name"><b>{{ book.title }} </b></td>
-                    <td class="text-center">{{book.author}} </td>
-                    <td class="text-right data">{{ book.isbn }}</td>
-                </tr>
+                <div class="books col-2" onclick="window.location='{{ url_for('book', isbn=book.isbn, title=book.title) }}'">
+                    <span class="cvrimg">
+                        <img src="https://covers.openlibrary.org/b/isbn/{{book.isbn13}}-M.jpg" width="120px" height="150px" alt="">
+                    </span>
+                    <div class="name"><b>{{ book.title }} </b></div>
+                </div>
             {% endfor %}
-        </tbody>
-    </table>
-</div>
-<br>
-
-<div>
-    {% block books %}
-    {% endblock %}
+        </div>
+    </div>
 </div>
 
 {% endblock %}

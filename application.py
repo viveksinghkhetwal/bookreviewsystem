@@ -19,6 +19,9 @@ Session(app)
 engine = create_engine("postgresql://xcnprtumpcosiv:f433bdce0fdf582124511d6cb362aee4b0cb992e464c450e3a0149db02b12f79@ec2-52-0-155-79.compute-1.amazonaws.com:5432/dah2hrgpictefi", pool_size = 20, max_overflow=10)
 db = scoped_session(sessionmaker(bind=engine))
 
+# For pagination with starting letters of the Book's Title.
+letters = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
+
 @app.route("/")
 def index():
     session.clear()
@@ -58,18 +61,28 @@ def login():
             return redirect(url_for('search'))
     return render_template('login.html')
 
+
 @app.route('/search', methods=['GET', 'POST'])
 def search():
-    s = request.form.get("search")
-
+    s = str(request.form.get("search")).lower()
     if request.method == 'POST':
-        result = db.execute("SELECT * FROM books WHERE title like '%"+s+"%' or isbn like '%"+s+"%' or author like '%"+s+"%' ORDER BY title").fetchall()
-        db.commit()
-        return render_template("search.html", result=result)
+        # Dynamic search bar.
+        result = db.execute("SELECT books.*, newisbn.isbn13 FROM books INNER JOIN newisbn on books.isbn=newisbn.isbn WHERE LOWER(books.title) LIKE '%"+s+"%' or books.isbn like '%"+s+"%' or LOWER(books.author) like '%"+s+"%' ORDER BY title").fetchall()
     else:
-        result = db.execute("SELECT * FROM books ORDER BY title LIMIT 20").fetchall()
-        return render_template("search.html", result = result)
+        # INNER JOIN tables books and newisbn.
+        result = db.execute("SELECT books.*, newisbn.isbn13 FROM books INNER JOIN newisbn on books.isbn=newisbn.isbn ORDER BY title LIMIT 52").fetchall()
+    return render_template("search.html", result = result, letters=letters)
 
+
+@app.route('/search/<string:alpha>', methods=['GET','POST'])
+def searchbook(alpha):
+    s = str(request.form.get("search")).lower()
+    if request.method == 'POST':
+        # Dynamic search bar.
+        result = db.execute("SELECT books.*, newisbn.isbn13 FROM books INNER JOIN newisbn on books.isbn=newisbn.isbn WHERE LOWER(books.title) LIKE '%"+s+"%' or books.isbn like '%"+s+"%' or LOWER(books.author) like '%"+s+"%' ORDER BY title").fetchall()
+    else:
+        result = db.execute("SELECT books.*, newisbn.isbn13 FROM books INNER JOIN newisbn on books.isbn=newisbn.isbn WHERE books.title LIKE '"+alpha+"%' ORDER BY title").fetchall()
+    return render_template("search.html", result = result, letters=letters)
 
 @app.route('/search/book/<string:isbn>/<string:title>',methods=['GET','POST'])
 def book(title,isbn):
@@ -78,11 +91,21 @@ def book(title,isbn):
         review = request.form.get("review")
         check = db.execute("SELECT * from books where isbn=:id", {"id":isbn}).fetchone()
 
+        author_name = check.author.replace(" ", "_")
+        author_bio = requests.get(f"https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles={author_name}")
+        author_data = author_bio.json()["query"]["pages"]
+        for key in author_data:
+            authorid = key
+        author_data = author_data[authorid]["extract"]
+
         # Using GoodReads API to store all details of the book
         res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"isbns":check.isbn})
         details = res.json()["books"][0]
 
-        getimg = requests.get("https://covers.openlibrary.org/b/:key/:value-:size.jpg", params={"key":"isbn", "value":details["isbn13"], "size":"S"})
+        desc = requests.get(f"https://www.googleapis.com/books/v1/volumes?q=isbn:{isbn}")
+        content = desc.json()["items"][0]["volumeInfo"]
+
+        # getimg = requests.get("https://covers.openlibrary.org/b/:key/:value-:size.jpg", params={"key":"isbn", "value":details["isbn13"], "size":"S"})
 
         userreviews = db.execute("SELECT * from reviews where bookid=:id", {"id":check.isbn}).fetchall()    #get book detail.
 
@@ -101,7 +124,7 @@ def book(title,isbn):
             #     return render_template("error.html",message="You have submitted your review. User can review once.")
         if check is None:
             return render_template("error.html", message="No such book exists.")
-        return render_template("bookdetail.html", check=check, userreviews=userreviews,title=title, isbn=isbn, details=details)
+        return render_template("bookdetail.html", check=check, userreviews=userreviews,title=title, isbn=isbn, details=details, content=content, authordata = author_data)
         engine.dispose()
     except KeyError:
         return render_template("error2.html",message="Please, Login to continue!")

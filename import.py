@@ -1,5 +1,5 @@
 import csv
-import os
+import os, requests, time
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
@@ -21,20 +21,51 @@ def reviewtable():
     print(f"table for the reviews is created.") 
     db.commit()
 
+def newisbn():
+    db.execute("CREATE TABLE newisbn(id SERIAL primary key, isbn varchar NOT NULL UNIQUE, isbn13 varchar NOT NULL UNIQUE);")
+    print(f"table for new isbns is created.")
+    db.commit()
+
+def importnewisbn():
+    result = db.execute("SELECT * FROM books WHERE id BETWEEN 4001 AND 5000 ORDER BY id").fetchall()                #Please change the values accordingly.
+    count = 4001                                                                                                    #This value too.
+    for i in result:
+        theisbn = i[1]
+        res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"isbns":theisbn})
+        if res.status_code == 200:
+            details = res.json()["books"][0]
+            new_isbn = details["isbn13"]
+            if new_isbn is None:
+                db.execute("INSERT INTO newisbn(isbn, isbn13) VALUES(:isbn, :new_isbn)",{"isbn":theisbn, "new_isbn":theisbn})
+            else:
+                db.execute("INSERT INTO newisbn(isbn, isbn13) VALUES(:isbn, :new_isbn)",{"isbn":theisbn, "new_isbn":new_isbn })
+            print(f"isbn inserted {count}")
+        else:
+            print(f"Not Found")
+        count += 1
+        time.sleep(1)
+    print(f"new isbns are added successfully")
+    db.commit()
+
 def importbooks():
     f = open("books.csv")
     reader = csv.reader(f)
     next(reader, None)
+    count = 0
     for isbn, title, author, year in reader:
         db.execute("INSERT INTO books(isbn, title, author, pbyear) VALUES(:isbn, :title, :author, :pbyear)",
                     {"isbn":isbn, "title":title, "author":author, "pbyear":year}
                     )
+        print(f"Inserted book {count}")
+        count += 1
     print(f"Books added successfully")
     db.commit()
 
 
 def main():
-    return usertable(), bookstable(), reviewtable(), importbooks()
+    #Use the function accordingly.
+    return importnewisbn()
+    # return usertable(), bookstable(), reviewtable(), importbooks()
 
 if __name__ == '__main__':
     main()
