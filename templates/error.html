@@ -1,10 +1,10 @@
 {% extends "layout.html" %}
 
 {% block title%}
-<title> Error </title> 
+<title> {{heading}} </title> 
 <style>
     .nav-link{
-        font-weight: bold; color: #4B5563;
+        color: #4B5563;
     }
     .nav-item :hover{
         background-color: #4338CA; color: white;
@@ -25,7 +25,7 @@
 
 {% block body %}
 <div style="margin: 18%; margin-top: 5%; border-radius: 25px; border: 2px transparent; background-color: #f8f9fa; padding: 20px; width: 65%;">
-    <h1>Error!</h1>
+    <h1>{{heading}}!</h1>
     {{ message }}
     
 </div>

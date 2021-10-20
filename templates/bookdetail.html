@@ -10,7 +10,7 @@
         padding: 12px;
     }
     .nav-link{
-        font-weight: bold; color: #4B5563;
+        color: #4B5563;
     }
     .nav-item :hover{
         background-color: #4338CA; color: white;
@@ -34,7 +34,7 @@
          border-radius: 15px; letter-spacing: .5px; font-weight: 500;
     }
     .reviewsection{
-        padding: 10px 5px;
+        padding: 0 5px; padding-top: 5px;
     }
     #commenttext{
         font-size: 16px !important; color: black !important;
@@ -45,7 +45,7 @@
         background-blend-mode: lighten; background-attachment: fixed;
     }
     .details-div{
-        background: rgba(255, 255, 255, 0.8);
+        background: rgba(255, 255, 255, 0.84);
         z-index: 10;
     }
     .normal-div{
@@ -156,8 +156,8 @@
         </div>
 
         <div class="normal-div" >
-            <p class="th" style="font-size: 22 !important; color:black !important;">Abstract</p>
-            <p class="th" style="font-size: 16 !important;">
+            <p class="th" style="font-size: 22 !important; font-weight:400; color:black !important;">Book summary</p>
+            <p class="th" style="font-size: 16 !important; font-weight:400;">
                 {% if content==0 %}
                     Not Available
                 {% else %}
@@ -167,10 +167,10 @@
         </div> <hr>
         
         <div class="normal-div" >
-            <p class="th" style="font-size: 22 !important; color:black !important;">Book
+            <p class="th" style="font-size: 22 !important; font-weight:400; color:black !important;">About the book
                 <span style="color:darkslategray">({{check.title}})</span>
             </p>
-            <p class="th" style="font-size: 16 !important;">
+            <p class="th" style="font-size: 16 !important; font-weight:400;">
                 {% if bookdata == 0 %}
                     Data not available.
                 {% else %}
@@ -179,9 +179,9 @@
         </div> <hr>
 
         <div class="normal-div" >
-            <p class="th" style="font-size: 22 !important; color:black !important;">Author 
+            <p class="th" style="font-size: 22 !important; font-weight:400; color:black !important;">About the author 
                 <span style="color:darkslategray">({{check.author}})</span></p>
-            <p class="th" style="font-size: 16 !important;">{{ authordata }} </p>
+            <p class="th" style="font-size: 16 !important; font-weight:400;">{{ authordata }} </p>
         </div> <br> <hr> <br>
 
         <div class="normal-div" style="margin: auto; padding: 0 30px; border-bottom-left-radius:10px; border-bottom-right-radius:10px; max-width: 700px; font-size:12px;">
@@ -222,50 +222,10 @@
                     <div>Avg. Rating</div>
                     <div class="fs-2">
                         {% if content==0 %}
-                            NA
-                        {% else %}
-                            {{ '%0.1f'| format(content["averageRating"] | float) }}
-                        {% endif %}<span style="font-size:20; font-weight: 400; color: rgb(0, 123, 255)">/5</span>
+                            NA{% else %}{{ '%0.1f'| format(content["averageRating"] | float) }}{% endif %}<span style="font-size:20; font-weight: 400; color: rgb(0, 123, 255)">/5</span>
                     </div>
                 </div>
             </div>
-
-                <!-- <body>
-        
-                    <table class="table">
-                        <tbody style="text-align: left;">
-                            <tr>
-                                <th scope="col">Total no. of ratings:</th>
-                                <td class="fs-2">{{ details["work_ratings_count"] }} </td>
-                            </tr>
-                            <tr>
-                                <th scope="col">Average Rating:</th>
-                                <td class="fs-2">{{ details["average_rating"] }} </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                -->
-        
-                    <!-- <form method="POST">
-                        
-                        <div class="formgroup" style="padding: 10px;">
-                            <label for="radio" style="font-size: x-large;">Rate this Book:</label>
-                            <div class="form-check form-check-inline">
-                                <label class="form-check-label" for="rate1">1</label>
-                                <input class="form-check-input" type="radio" name="rate1" value="option1"> &nbsp;&nbsp;&nbsp;
-                                <label class="form-check-label" for="rate2">2</label>
-                                <input class="form-check-input" type="radio" name="rate2" value="option1">&nbsp;&nbsp;&nbsp;
-                                <label class="form-check-label" for="rate3">3</label>
-                                <input class="form-check-input" type="radio" name="rate3" value="option1">&nbsp;&nbsp;&nbsp;
-                                <label class="form-check-label" for="rate4">4</label>
-                                <input class="form-check-input" type="radio" name="rate4" value="option1">&nbsp;&nbsp;&nbsp;
-                                <label class="form-check-label" for="rate5">5</label>
-                                <input class="form-check-input" type="radio" name="rate5" value="option1">
-                            </div> <hr>
-                            
-                        </div>
-                    </form> -->
-                <!-- </body> -->
         </div>
         
     </div>
@@ -276,7 +236,7 @@
             <form method="POST">
                 <div>
                     <label for="exampleFormControlTextarea1" style="font-size: normal;">Have you read the book <b>{{ check.title }}</b>...? </label>
-                    <textarea class="form-control" onkeyup=success() name="review" id="exampleFormControlTextarea1" rows="5" placeholder="Write a Review to tell us about it..."></textarea>
+                    <textarea class="form-control" onkeyup=success() name="review" id="exampleFormControlTextarea1" style: "white-space: pre-wrap;" rows="5" placeholder="Write a Review to tell us about it..."></textarea>
                 </div> 
                 <div style="padding: 5px 15px;">
                     <button type="submit" id="button" name="comment" class="btn btn-primary" style="float: right;" disabled>Post</button> <br><br>
@@ -286,15 +246,18 @@
     
             {% for review in userreviews %}
             <div class="reviewsection">
-                <h5 style=" font-size:20;">{{ review.userid }}</h5>
+                <!-- <h5 style=" font-size:20;">{{ review.username }}</h5> -->
                 <div id="commenttext">
                     {{ review.reviews }}
                 </div>
             </div> 
-            <!--<div style="padding: 2px; float:right;">
-                 <a href=""><small>Upvote</small></a> &nbsp | &nbsp;
-                <a href=""><small>Downvote</small></a> &nbsp | &nbsp;
-            </div>  -->
+            <div style="padding: 0 5px; padding-bottom:5px; float:left; color:darkslategray;">
+                <small>{{ review.username }}</small> &nbsp; | &nbsp;
+                 <small>
+                     posted {{ review.time.strftime("%b") }} {{ review.time.strftime("%d") }} '{{ review.time.year }} at 
+                     {{ review.time.strftime("%I") }}:{{ review.time.strftime("%M") }} {{ review.time.strftime("%p") }}
+                 </small> &nbsp; | &nbsp;
+            </div> <br>
             <hr>
             {% endfor %}
         </section>

@@ -17,7 +17,7 @@ def bookstable():
     db.commit()
 
 def reviewtable():
-    db.execute("CREATE TABLE reviews(id SERIAL primary key, rating int, reviews varchar(900) not null,isbn_no varchar not null, email varchar(150) not null);")
+    db.execute("CREATE TABLE reviews(id SERIAL PRIMARY KEY, rating INT, reviews VARCHAR(900) NOT NULL, isbn_no VARCHAR NOT NULL, username VARCHAR(150) NOT NULL, time TIMESTAMP NOT NULL);")
     print(f"table for the reviews is created.") 
     db.commit()
 
@@ -62,9 +62,27 @@ def importbooks():
     db.commit()
 
 
+# def authordetails():
+#     db.execute("CREATE TABLE author(id SERIAL primary key, authorname varchar(40) NOT NULL, olid VARCHAR(20) NOT NULL UNIQUE, books INT NOT NULL);")
+#     print(f"table for author details is created.")
+#     db.commit()
+
+
+# def importauthor():
+#     authordata = db.execute("select distinct author, count(*) from books group by author order by count desc limit 10;").fetchall()
+#     count = 1
+#     for i in authordata:
+#         res = requests.get(f"https://openlibrary.org/search/authors.json?q={i.author}")
+#         authorid = res.json()["docs"][0]["key"]
+#         db.execute("INSERT INTO author(authorname, olid, books) VALUES(:authorname, :olid, :books)",{"authorname": i.author, "olid": authorid, "books": i.count})
+#         print(f"author data {count} added.")
+#         count += 1
+#     db.commit()
+
+
 def main():
     #Use the function accordingly.
-    return importnewisbn()
+    return authordetails(), importauthor()
     # return usertable(), bookstable(), reviewtable(), importbooks()
 
 if __name__ == '__main__':

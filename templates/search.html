@@ -6,8 +6,8 @@
     #brand{
         pointer-events: none;
     }
-    .nav-link{
-        font-weight: bold; color: #4B5563;
+    .nav-link{ 
+        color: #4B5563;
     }
     .nav-item :hover{
         background-color: #4338CA; color: white;
@@ -108,7 +108,7 @@
     
     <div class="col-7 books-div" style="min-width: 850px; margin: auto;">
         <div class="row" style="margin-top:10px;">
-            <div class="bookshead">Find your favourite books...</div> 
+            <div class="bookshead">Find your favourite books</div> 
             <div class="letters">
                 {% for i in letters %}
                     <a href="{{ url_for('searchbook', alpha=i) }}">{{i}}</a>
@@ -116,6 +116,7 @@
             </div>
         </div> 
         <hr>
+        <div style="padding: 0 5px; color: darkslategray"> Showing {{ count }} Books...!</div>
         <div class="row" style="margin-bottom:10px;">
             {% for book in result %}
                 <div class="books col-2" onclick="window.location='{{ url_for('book', isbn=book.isbn, title=book.title) }}'">
