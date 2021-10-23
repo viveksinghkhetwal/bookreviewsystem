@@ -59,7 +59,7 @@ def signup():
         # show the form, it wasn't submitted
         return render_template('signup.html')
     except OperationalError:
-        return render_template("offline.html",heading= "Offline", message="You are Offline. Please connect with internet and try registering again.")
+        return render_template("offline.html",heading= "No Internet", message="You are Offline. Please connect with internet and try registering again.")
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -78,7 +78,7 @@ def login():
                 return redirect(url_for('search'))
         return render_template('login.html')
     except OperationalError:
-        return render_template("offline.html",heading= "Offline", message="You are Offline. Please connect with internet and try login again.")
+        return render_template("offline.html",heading= "No Internet", message="You are Offline. Please connect with internet and try login again.")
 
 
 
@@ -94,7 +94,7 @@ def search():
             result = db.execute("SELECT books.*, newisbn.isbn13 FROM books INNER JOIN newisbn on books.isbn=newisbn.isbn ORDER BY id LIMIT 52").fetchall()
         return render_template("search.html", result = result, letters=letters, count=len(result))
     except OperationalError:
-        return render_template("offline.html",heading= "Offline", message="You are Offline. Please connect with internet and try again.")
+        return render_template("offline.html",heading= "No Internet", message="You are Offline. Please connect with internet and try again.")
 
 
 
@@ -109,7 +109,7 @@ def searchbook(alpha):
             result = db.execute("SELECT books.*, newisbn.isbn13 FROM books INNER JOIN newisbn on books.isbn=newisbn.isbn WHERE books.title LIKE '"+alpha+"%' ORDER BY title").fetchall()
         return render_template("search.html", result = result, letters=letters, count=len(result))
     except OperationalError:
-        return render_template("offline.html",heading= "Offline", message="You are Offline. Please connect with internet and try login again.")
+        return render_template("offline.html",heading= "No Internet", message="You are Offline. Please connect with internet and try login again.")
 
 
 
